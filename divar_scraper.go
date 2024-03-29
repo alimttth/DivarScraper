@@ -10,6 +10,11 @@ import (
 	"github.com/gen2brain/beeep"
 )
 
+type Interface struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+}
+
 func main() {
 	// config filters
 	BASE_URL := "https://divar.ir/s/iran/laptop-notebook-macbook/apple?goods-business-type=all&price=39000000-40000000&cities=1%2C8"
