@@ -11,17 +11,19 @@ import (
 )
 
 func main() {
+	// config filters
 	BASE_URL := "https://divar.ir/s/iran/laptop-notebook-macbook/apple?goods-business-type=all&price=39000000-40000000&cities=1%2C8"
-	targetTitle := "مک"
+	TARGET_TITLE := "مک"
 
 	for {
 		response, err := http.Get(BASE_URL)
-
 		// nil == undefined
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		defer response.Body.Close()
+		// Promise == defer
 
 		if response.StatusCode != 200 {
 			log.Fatalf("Req F: %d", response.StatusCode)
@@ -32,13 +34,11 @@ func main() {
 			log.Fatal(err)
 		}
 
-		doc.Find(".kt-post-card").Each(func(i int, s *goquery.Selection) {
-			title := s.Find(".kt-post-card__title").Text()
-			description := s.Find(".kt-post-card__description").Text()
-			imageURL, _ := s.Find(".kt-post-card__image").Attr("src")
-
-			if strings.Contains(title, targetTitle) {
-				err := beeep.Alert("پیدا شد!", "Title: "+title+"\nDescription: "+description+"\nImage URL: "+imageURL, "")
+		doc.Find(".kt-post-card").Each(func(i int, post *goquery.Selection) {
+			title := post.Find(".kt-post-card__title").Text()
+			description := post.Find(".kt-post-card__description").Text()
+			if strings.Contains(title, TARGET_TITLE) {
+				err := beeep.Alert("پیدا شد!", "Title: "+title+"\nDescription: "+description+"\nImage URL: ", "")
 				if err != nil {
 					log.Fatal(err)
 				}
